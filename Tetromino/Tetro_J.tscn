@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcdy63dck6n2"]
+
+[ext_resource type="PackedScene" uid="uid://dxdcihwkola1r" path="res://Tetromino/TetroBlock.tscn" id="1_l15q0"]
+[ext_resource type="Script" path="res://script/Tetromino.gd" id="1_mph51"]
+
+[node name="Tetro_J" type="Node2D"]
+script = ExtResource("1_mph51")
+
+[node name="J1" parent="." instance=ExtResource("1_l15q0")]
+position = Vector2(48, -48)
+
+[node name="J2" parent="." instance=ExtResource("1_l15q0")]
+position = Vector2(48, 0)
+
+[node name="J3" parent="." instance=ExtResource("1_l15q0")]
+
+[node name="J4" parent="." instance=ExtResource("1_l15q0")]
+position = Vector2(-48, 0)

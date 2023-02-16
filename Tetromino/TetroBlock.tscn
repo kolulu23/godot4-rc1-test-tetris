@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxdcihwkola1r"]
+
+[ext_resource type="Script" path="res://script/TetroBlock.gd" id="1_t02g5"]
+[ext_resource type="Texture2D" uid="uid://dcpw06573mflu" path="res://icon.svg" id="1_umxkp"]
+
+[node name="TetroBlock" type="Node2D"]
+editor_description = "Building block for tetromino. https://tetris.wiki/Tetromino"
+script = ExtResource("1_t02g5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("1_umxkp")

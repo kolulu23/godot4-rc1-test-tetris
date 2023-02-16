@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://donqc4orcxhap"]
+
+[ext_resource type="Script" path="res://script/Arena.gd" id="1_6esqv"]
+[ext_resource type="Script" path="res://script/TetrominoSpawner.gd" id="2_wctml"]
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_6esqv")
+
+[node name="TetrominoSpawner" type="Node" parent="."]
+script = ExtResource("2_wctml")
+first_bag_fixed = false

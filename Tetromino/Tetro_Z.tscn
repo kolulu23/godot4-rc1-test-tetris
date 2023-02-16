@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://du1f0y1xqbk11"]
+
+[ext_resource type="Script" path="res://script/Tetromino.gd" id="1_7g1fp"]
+[ext_resource type="PackedScene" uid="uid://dxdcihwkola1r" path="res://Tetromino/TetroBlock.tscn" id="1_edvpj"]
+
+[node name="TetroZ" type="Node2D"]
+editor_description = "Building block for tetromino. https://tetris.wiki/Tetromino"
+script = ExtResource("1_7g1fp")
+
+[node name="Z1" parent="." instance=ExtResource("1_edvpj")]
+position = Vector2(-48, -48)
+
+[node name="Z2" parent="." instance=ExtResource("1_edvpj")]
+position = Vector2(0, -48)
+
+[node name="Z3" parent="." instance=ExtResource("1_edvpj")]
+
+[node name="Z4" parent="." instance=ExtResource("1_edvpj")]
+position = Vector2(48, 0)
