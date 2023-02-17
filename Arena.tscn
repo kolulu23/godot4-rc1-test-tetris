@@ -13,7 +13,4 @@ first_bag_fixed = false
 [node name="TetrominoDropTimer" type="Timer" parent="."]
 autostart = true
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.760784, 0.733333, 0.231373, 1)
-
 [connection signal="timeout" from="TetrominoDropTimer" to="." method="_on_tetromino_drop_timer_timeout"]

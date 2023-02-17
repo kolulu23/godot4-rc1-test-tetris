@@ -36,8 +36,6 @@ func spawn(tetro_type: Tetromino.TetroType) -> Tetromino:
 			tetro_scene = preload("res://Tetromino/Tetro_T.tscn")
 		Tetromino.TetroType.Z:
 			tetro_scene = preload("res://Tetromino/Tetro_Z.tscn")
-		Tetromino.TetroType.Z:
-			tetro_scene = preload("res://Tetromino/Tetro_Z.tscn")
 	var tetro = tetro_scene.instantiate()
 	tetro.tetro_type = tetro_type
 	return tetro
@@ -67,3 +65,19 @@ func replenish_tetromino_bag(shuffle := false) -> void:
 	if shuffle:
 		tetro_bag.shuffle()
 
+
+## Get the spawn position for a specific tetromino type within the arena.
+## All tetromino must have their position.x equals to multiple TetroBlock.BLOCK_SIZE plus an offset.
+## This ensures all movement based on TetroBlock.BLOCK_SIZE not go out of arena.
+func get_spawn_position_for(tetro: Tetromino, arena_width: int) -> Vector2:
+	var offset_x: float
+	var offset_y: float
+	match tetro.tetro_type:
+		Tetromino.TetroType.I, Tetromino.TetroType.O:
+			offset_x = 0.
+			offset_y = TetroBlock.BLOCK_SIZE
+		_:
+			offset_x = TetroBlock.BLOCK_SIZE_HALF
+			offset_y = TetroBlock.BLOCK_SIZE_HALF + TetroBlock.BLOCK_SIZE
+	var arena_top_middle: float = TetroBlock.BLOCK_SIZE * arena_width / 2.0
+	return Vector2(arena_top_middle + offset_x, offset_y)
