@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b70cc7lyewvwe"]
+[gd_scene load_steps=4 format=3 uid="uid://b70cc7lyewvwe"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_12dns"]
 [ext_resource type="PackedScene" uid="uid://donqc4orcxhap" path="res://Arena.tscn" id="1_ayx2w"]
-[ext_resource type="PackedScene" uid="uid://y128s5yc2uu6" path="res://Tetromino/Tetro_L.tscn" id="4_faa5r"]
 [ext_resource type="PackedScene" uid="uid://dcdy63dck6n2" path="res://Tetromino/Tetro_J.tscn" id="4_ml6h1"]
 
 [node name="Main" type="Node"]
@@ -10,11 +9,9 @@ script = ExtResource("1_12dns")
 
 [node name="Arena" parent="." instance=ExtResource("1_ayx2w")]
 
-[node name="Tetro_L" parent="Arena" instance=ExtResource("4_faa5r")]
-position = Vector2(72, 72)
-
 [node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
 position = Vector2(408, 72)
+rotation = 3.14159
 
 [node name="x" type="Control" parent="."]
 layout_mode = 3

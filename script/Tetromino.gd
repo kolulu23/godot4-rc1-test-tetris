@@ -42,10 +42,10 @@ func rotate_cw():
 func rotate_ccw():
 	self.rotation -= PI / 2
 
-func _debug_report_position():
+func _debug_print():
 	for block in self.get_children():
 		## This is actually block_position_relative_to_arena
 		var block_position = self.position + block.position
 		var cell_position = CellManager.get_cell_position(block_position)
-		print(block, block_position, cell_position)
+		print(block.name, block_position, cell_position)
 	print()

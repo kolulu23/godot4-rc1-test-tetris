@@ -33,16 +33,16 @@ func try_move_tetromino(event: InputEvent) -> void:
 	# TODO Set a custome timeout to action hold time
 	if event.is_action_pressed("tetro_move_left", true):
 		self.try_move_left(active_tetromino)
-		active_tetromino._debug_report_position()
+		_debug_print()
 	if event.is_action_pressed("tetro_move_right", true):
 		self.try_move_right(active_tetromino)
-		active_tetromino._debug_report_position()
+		_debug_print()
 	if event.is_action_pressed("tetro_soft_drop", true):
 		# Stop and restart the timer to avoid accelaration
 		$TetrominoDropTimer.stop()
 		self.try_move_down(active_tetromino)
 		$TetrominoDropTimer.start()
-		active_tetromino._debug_report_position()
+		_debug_print()
 	if event.is_action_pressed("tetro_hard_drop"):
 		print("todo, hard drop ", active_tetromino)
 	if event.is_action_pressed("tetro_rotate_cw"):
@@ -55,27 +55,36 @@ func try_move_tetromino(event: InputEvent) -> void:
 
 func try_move_left(tetro: Tetromino):
 	# TODO Check boundary
-	active_tetromino.move_left()
+	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	tetro.move_left()
+	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 
 
 func try_move_right(tetro: Tetromino):
 	# TODO Check boundary
-	active_tetromino.move_right()
+	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	tetro.move_right()
+	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 
 
 func try_move_down(tetro: Tetromino):
 	# TODO Check boundary
-	active_tetromino.move_down()
+	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	tetro.move_down()
+	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 
 
 func try_rotate_cw(tetro: Tetromino):
 	# TODO Check boundary
-	active_tetromino.rotate_cw()
+	tetro.rotate_cw()
 
 
 func try_rotate_ccw(tetro: Tetromino):
 	# TODO Check boundary
-	active_tetromino.rotate_ccw()
+	tetro.rotate_ccw()
 
 
 func setup_cell_manager():
@@ -90,18 +99,11 @@ func setup_cell_manager():
 func setup_active_tetromino():
 	active_tetromino = $TetrominoSpawner.spawn_random()
 	self.add_child(active_tetromino)
-
-	var spawn_position = $TetrominoSpawner.get_spawn_position_for(active_tetromino, ARENA_WIDTH)
-	active_tetromino.position = spawn_position
-
-	for block in active_tetromino.get_children():
-		## This is actually block_position_relative_to_arena
-		var block_position = active_tetromino.position + block.position
-		var cell_position = $CellManager.get_cell_position(block_position)
-		$CellManager.set_cell(cell_position.x, cell_position.y, block)
-
-	active_tetromino._debug_report_position()
-
+	active_tetromino.position = $TetrominoSpawner.get_spawn_position_for(
+		active_tetromino, ARENA_WIDTH
+	)
+	$CellManager.set_tetro_cells(active_tetromino)
+	_debug_print()
 	print("[1]Spawn ", active_tetromino)
 
 
@@ -109,3 +111,9 @@ func _on_tetromino_drop_timer_timeout():
 	# TODO Debug
 	# active_tetromino.move_down()
 	pass
+
+
+func _debug_print():
+	if active_tetromino != null:
+		active_tetromino._debug_print()
+	$CellManager._debug_print()
