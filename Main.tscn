@@ -1,77 +1,150 @@
-[gd_scene load_steps=10 format=3 uid="uid://b70cc7lyewvwe"]
+[gd_scene load_steps=5 format=3 uid="uid://b70cc7lyewvwe"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_12dns"]
 [ext_resource type="PackedScene" uid="uid://donqc4orcxhap" path="res://Arena.tscn" id="1_ayx2w"]
-[ext_resource type="PackedScene" uid="uid://dcdy63dck6n2" path="res://Tetromino/Tetro_J.tscn" id="2_teuu3"]
-[ext_resource type="PackedScene" uid="uid://4wurou4fownx" path="res://Tetromino/Tetro_I.tscn" id="3_665uj"]
 [ext_resource type="PackedScene" uid="uid://y128s5yc2uu6" path="res://Tetromino/Tetro_L.tscn" id="4_faa5r"]
-[ext_resource type="PackedScene" uid="uid://bof38ow2gicrj" path="res://Tetromino/Tetro_T.tscn" id="6_eylgd"]
-[ext_resource type="PackedScene" uid="uid://clhb2lw417nlc" path="res://Tetromino/Tetro_S.tscn" id="7_jatj3"]
-[ext_resource type="PackedScene" uid="uid://ditsn0wlbviwr" path="res://Tetromino/Tetro_O.tscn" id="8_sjns1"]
-[ext_resource type="PackedScene" uid="uid://du1f0y1xqbk11" path="res://Tetromino/Tetro_Z.tscn" id="9_baeib"]
+[ext_resource type="PackedScene" uid="uid://dcdy63dck6n2" path="res://Tetromino/Tetro_J.tscn" id="4_ml6h1"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_12dns")
 
 [node name="Arena" parent="." instance=ExtResource("1_ayx2w")]
 
-[node name="Markers" type="Node" parent="."]
+[node name="Tetro_L" parent="Arena" instance=ExtResource("4_faa5r")]
+position = Vector2(72, 72)
 
-[node name="Marker2D" type="Marker2D" parent="Markers"]
-position = Vector2(48, 0)
-gizmo_extents = 1280.0
+[node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
+position = Vector2(264, 72)
 
-[node name="Marker2D2" type="Marker2D" parent="Markers"]
-position = Vector2(96, 0)
-gizmo_extents = 1280.0
+[node name="x" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 240.0
+offset_top = -24.0
+offset_right = 280.0
+offset_bottom = 16.0
 
-[node name="Marker2D3" type="Marker2D" parent="Markers"]
-position = Vector2(144, 0)
-gizmo_extents = 1280.0
+[node name="Label" type="Label" parent="x"]
+layout_mode = 0
+offset_left = -240.0
+offset_right = -216.0
+offset_bottom = 26.0
+text = "0"
 
-[node name="Marker2D4" type="Marker2D" parent="Markers"]
-position = Vector2(192, 0)
-gizmo_extents = 1280.0
+[node name="Label2" type="Label" parent="x"]
+layout_mode = 0
+offset_left = -192.0
+offset_right = -152.0
+offset_bottom = 26.0
+text = "1"
 
-[node name="Marker2D5" type="Marker2D" parent="Markers"]
-position = Vector2(240, 0)
-gizmo_extents = 1280.0
+[node name="Label3" type="Label" parent="x"]
+layout_mode = 0
+offset_left = -144.0
+offset_right = -104.0
+offset_bottom = 26.0
+text = "2"
 
-[node name="Marker2D6" type="Marker2D" parent="Markers"]
-position = Vector2(288, 0)
-gizmo_extents = 1280.0
+[node name="Label4" type="Label" parent="x"]
+layout_mode = 0
+offset_left = -96.0
+offset_right = -56.0
+offset_bottom = 26.0
+text = "3"
 
-[node name="Marker2D7" type="Marker2D" parent="Markers"]
-position = Vector2(336, 0)
-gizmo_extents = 1280.0
+[node name="Label5" type="Label" parent="x"]
+layout_mode = 0
+offset_left = -48.0
+offset_right = -8.0
+offset_bottom = 26.0
+text = "4"
 
-[node name="Marker2D8" type="Marker2D" parent="Markers"]
-position = Vector2(384, 0)
-gizmo_extents = 1280.0
+[node name="Label6" type="Label" parent="x"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 26.0
+text = "5"
 
-[node name="Marker2D9" type="Marker2D" parent="Markers"]
-position = Vector2(432, 0)
-gizmo_extents = 1280.0
+[node name="Label7" type="Label" parent="x"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 88.0
+offset_bottom = 26.0
+text = "6"
 
-[node name="Marker2D10" type="Marker2D" parent="Markers"]
-position = Vector2(480, 0)
-gizmo_extents = 1280.0
+[node name="Label8" type="Label" parent="x"]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 136.0
+offset_bottom = 26.0
+text = "7"
 
-[node name="Samples" type="Node" parent="."]
+[node name="Label9" type="Label" parent="x"]
+layout_mode = 0
+offset_left = 144.0
+offset_right = 184.0
+offset_bottom = 26.0
+text = "8"
 
-[node name="Tetro_J" parent="Samples" instance=ExtResource("2_teuu3")]
+[node name="Label10" type="Label" parent="x"]
+layout_mode = 0
+offset_left = 192.0
+offset_right = 232.0
+offset_bottom = 26.0
+text = "9"
 
-[node name="Tetro_I" parent="Samples" instance=ExtResource("3_665uj")]
+[node name="y" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 240.0
+offset_top = -24.0
+offset_right = 280.0
+offset_bottom = 16.0
 
-[node name="Tetro_L" parent="Samples" instance=ExtResource("4_faa5r")]
+[node name="Label" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 24.0
+offset_right = -240.0
+offset_bottom = 50.0
+text = "0"
 
-[node name="Tetro_T" parent="Samples" instance=ExtResource("6_eylgd")]
+[node name="Label2" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 72.0
+offset_right = -240.0
+offset_bottom = 98.0
+text = "1"
 
-[node name="Tetro_S" parent="Samples" instance=ExtResource("7_jatj3")]
+[node name="Label3" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 120.0
+offset_right = -240.0
+offset_bottom = 146.0
+text = "2"
 
-[node name="Tetro_O" parent="Samples" instance=ExtResource("8_sjns1")]
-position = Vector2(432, 960)
-rotation = -0.000688876
+[node name="Label4" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 168.0
+offset_right = -240.0
+offset_bottom = 194.0
+text = "3"
 
-[node name="TetroZ" parent="Samples" instance=ExtResource("9_baeib")]
-position = Vector2(72, 984)
+[node name="Label5" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 216.0
+offset_right = -240.0
+offset_bottom = 242.0
+text = "4"
+
+[node name="Label6" type="Label" parent="y"]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 264.0
+offset_right = -240.0
+offset_bottom = 290.0
+text = "5"

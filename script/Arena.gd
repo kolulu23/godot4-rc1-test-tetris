@@ -3,9 +3,6 @@ extends Node2D
 ## Current active tetromino, could be null if it was not spawned in time
 var active_tetromino: Tetromino
 
-## One dimension array for our 20 * 10 cells arena
-var arena_cells: Array[TetroBlock]
-
 signal locked_down(tetro: Tetromino)
 
 const ARENA_WIDTH: int = 10
@@ -17,6 +14,7 @@ const ARENA_HEIGHT_PIXEL: float = ARENA_HEIGHT * TetroBlock.BLOCK_SIZE
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# randomize()
+	self.setup_cell_manager()
 	self.setup_active_tetromino()
 
 
@@ -77,17 +75,33 @@ func try_rotate_ccw(tetro: Tetromino):
 	active_tetromino.rotate_ccw()
 
 
+func setup_cell_manager():
+	$CellManager.cell_width = ARENA_WIDTH
+	$CellManager.cell_height = ARENA_HEIGHT
+	$CellManager.cells.resize(ARENA_WIDTH * ARENA_HEIGHT)
+	$CellManager.cells.fill(null)
+
+
 ## Setup active_tetromino
-## First spawn a random tetromino, then rotate it randomly, then put it to a designated spawn point
+## First spawn a random tetromino, then put it to a designated spawn point
 func setup_active_tetromino():
 	active_tetromino = $TetrominoSpawner.spawn_random()
 	self.add_child(active_tetromino)
-	for i in randi() % 3:
-		active_tetromino.rotate_cw()
+
 	var spawn_position = $TetrominoSpawner.get_spawn_position_for(active_tetromino, ARENA_WIDTH)
 	active_tetromino.position = spawn_position
+
+	for block in active_tetromino.get_children():
+		## This is actually block_position_relative_to_arena
+		var block_position = active_tetromino.position + block.position
+		var cell_position = $CellManager.get_cell_position(block_position)
+		print(block, block_position, cell_position)
+		$CellManager.set_cell(cell_position.x, cell_position.y, block)
+
 	print("[1]Spawn ", active_tetromino)
 
 
 func _on_tetromino_drop_timer_timeout():
-	active_tetromino.move_down()
+	# TODO Debug
+	# active_tetromino.move_down()
+	pass
