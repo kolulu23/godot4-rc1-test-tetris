@@ -33,13 +33,16 @@ func try_move_tetromino(event: InputEvent) -> void:
 	# TODO Set a custome timeout to action hold time
 	if event.is_action_pressed("tetro_move_left", true):
 		self.try_move_left(active_tetromino)
+		active_tetromino._debug_report_position()
 	if event.is_action_pressed("tetro_move_right", true):
 		self.try_move_right(active_tetromino)
+		active_tetromino._debug_report_position()
 	if event.is_action_pressed("tetro_soft_drop", true):
 		# Stop and restart the timer to avoid accelaration
 		$TetrominoDropTimer.stop()
 		self.try_move_down(active_tetromino)
 		$TetrominoDropTimer.start()
+		active_tetromino._debug_report_position()
 	if event.is_action_pressed("tetro_hard_drop"):
 		print("todo, hard drop ", active_tetromino)
 	if event.is_action_pressed("tetro_rotate_cw"):
@@ -95,8 +98,9 @@ func setup_active_tetromino():
 		## This is actually block_position_relative_to_arena
 		var block_position = active_tetromino.position + block.position
 		var cell_position = $CellManager.get_cell_position(block_position)
-		print(block, block_position, cell_position)
 		$CellManager.set_cell(cell_position.x, cell_position.y, block)
+
+	active_tetromino._debug_report_position()
 
 	print("[1]Spawn ", active_tetromino)
 

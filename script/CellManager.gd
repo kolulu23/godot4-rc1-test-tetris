@@ -25,7 +25,7 @@ func set_cell(x: int, y: int, cell: TetroBlock) -> void:
 ## Sicne we only store TetroBlock in our cells, and TetroBlock is a square with centered sprites,
 ## we can get its cells position if it moves by block size.
 ## [code]pixel_position[/code] is the relative position from a block to the playing area, not the tetromino.
-func get_cell_position(pixel_position: Vector2) -> Vector2i:
+static func get_cell_position(pixel_position: Vector2) -> Vector2i:
 	var x: int = floori(pixel_position.x / TetroBlock.BLOCK_SIZE)
 	var y: int = floori(pixel_position.y / TetroBlock.BLOCK_SIZE)
 	return Vector2i(x, y)

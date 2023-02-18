@@ -14,7 +14,7 @@ script = ExtResource("1_12dns")
 position = Vector2(72, 72)
 
 [node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
-position = Vector2(264, 72)
+position = Vector2(408, 72)
 
 [node name="x" type="Control" parent="."]
 layout_mode = 3
