@@ -13,7 +13,11 @@ script = ExtResource("2_wctml")
 [node name="TetrominoDropTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="TetrominoLockDownTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="CellManager" type="Node2D" parent="."]
 script = ExtResource("3_hgwo3")
 
 [connection signal="timeout" from="TetrominoDropTimer" to="." method="_on_tetromino_drop_timer_timeout"]
+[connection signal="timeout" from="TetrominoLockDownTimer" to="." method="_on_tetromino_lock_down_timer_timeout"]

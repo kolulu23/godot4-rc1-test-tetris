@@ -3,8 +3,6 @@ extends Node2D
 ## Current active tetromino, could be null if it was not spawned in time
 var active_tetromino: Tetromino
 
-signal locked_down(tetro: Tetromino)
-
 const ARENA_WIDTH: int = 10
 const ARENA_HEIGHT: int = 20
 const ARENA_WIDTH_PIXEL: float = ARENA_WIDTH * TetroBlock.BLOCK_SIZE
@@ -23,6 +21,10 @@ func _process(_delta):
 	pass
 
 
+func _physics_process(delta):
+	pass
+
+
 func _input(event):
 	if active_tetromino != null:
 		try_move_tetromino(event)
@@ -30,7 +32,6 @@ func _input(event):
 
 func try_move_tetromino(event: InputEvent) -> void:
 	# Set "allow_echo" to true so when player holds these key they can still move tetrominos
-	# TODO Set a custome timeout to action hold time
 	if event.is_action_pressed("tetro_move_left", true):
 		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.LEFT)
 		_debug_print()
@@ -40,8 +41,10 @@ func try_move_tetromino(event: InputEvent) -> void:
 	if event.is_action_pressed("tetro_soft_drop", true):
 		# Stop and restart the timer to avoid accelaration
 		$TetrominoDropTimer.stop()
-		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
+		var moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
 		$TetrominoDropTimer.start()
+		if not moved:
+			$TetrominoLockDownTimer.start()
 		_debug_print()
 	if event.is_action_pressed("tetro_hard_drop"):
 		print("todo, hard drop ", active_tetromino)
@@ -85,8 +88,15 @@ func setup_active_tetromino():
 
 func _on_tetromino_drop_timer_timeout():
 	# TODO Debug
-	# active_tetromino.move_down()
+	if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
+		$TetrominoLockDownTimer.start()
 	pass
+
+
+## This is a one shot timer, we start it manually
+func _on_tetromino_lock_down_timer_timeout():
+	print(active_tetromino, " locked down")
+	self.setup_active_tetromino()
 
 
 func _debug_print():

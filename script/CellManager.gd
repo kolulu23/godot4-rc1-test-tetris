@@ -76,16 +76,18 @@ func move_tetro_cells(
 	for i in range(dest_array.size()):
 		self.set_cell(dest_array[i], blocks[i])
 
+
 ## This method updates tetro's cell position and its sprite position
-func move_tetro_cells_to(tetro: Tetromino, direction: Vector2i):
+func move_tetro_cells_to(tetro: Tetromino, direction: Vector2i) -> bool:
 	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
 	var dest_cell_positions: Array[Vector2i] = []
 	for cell_positon in src_cell_positions:
 		dest_cell_positions.push_back(cell_positon + direction)
 	if not dest_cell_positions.all(self.is_cell_inbound):
-		return
+		return false
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 	tetro.move_to(direction)
+	return true
 
 
 ## Place each tetro block into their cell position, this method does not care whether it's already in the cell or not
