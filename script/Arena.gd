@@ -42,7 +42,7 @@ func try_move_tetromino(event: InputEvent) -> void:
 		$TetrominoDropTimer.stop()
 		moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
 		$TetrominoDropTimer.start()
-		if not moved:
+		if not moved and $TetrominoLockDownTimer.is_stopped():
 			$TetrominoLockDownTimer.start()
 	if event.is_action_pressed("tetro_hard_drop"):
 		print("todo, hard drop ", active_tetromino)
@@ -71,7 +71,11 @@ func setup_active_tetromino():
 	active_tetromino.position = $TetrominoSpawner.get_spawn_position_for(
 		active_tetromino, ARENA_WIDTH
 	)
-	$CellManager.set_tetro_cells(active_tetromino)
+	var cell_positions = CellManager.get_cell_positions_of_tetro(active_tetromino)
+	if $CellManager.is_tetro_can_move_to(active_tetromino, cell_positions):
+		$CellManager.set_tetro_cells(active_tetromino)
+	else:
+		print("[TODO]Game Over")
 	_debug_print()
 	print("[1]Spawn ", active_tetromino)
 

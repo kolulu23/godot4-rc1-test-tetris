@@ -83,9 +83,10 @@ func move_tetro_cells_to(tetro: Tetromino, direction: Vector2i) -> bool:
 	var dest_cell_positions: Array[Vector2i] = []
 	for cell_positon in src_cell_positions:
 		dest_cell_positions.push_back(cell_positon + direction)
-	# TODO Also check if there's other cell blocks its way
-	if not dest_cell_positions.all(self.is_cell_inbound):
+
+	if !self.is_tetro_can_move_to(tetro, dest_cell_positions):
 		return false
+
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 	tetro.move_to(direction)
 	return true
@@ -95,8 +96,10 @@ func rotate_tetro_cells_to(tetro: Tetromino, _rotation: float) -> bool:
 	var dest_tetro = tetro.duplicate()
 	dest_tetro.rotate(_rotation)
 	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(dest_tetro)
-	if not dest_cell_positions.all(self.is_cell_inbound):
+
+	if !self.is_tetro_can_move_to(tetro, dest_cell_positions):
 		return false
+
 	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 	tetro.rotate(_rotation)
@@ -110,10 +113,30 @@ func set_tetro_cells(tetro: Tetromino):
 		self.set_cell(cell_position, block)
 
 
+## Checks if cell_position is still inside cells, to make a cell inbound, it must can be indexed by positive numbers and do not exceed cell size
 func is_cell_inbound(cell_position: Vector2i) -> bool:
 	if cell_position.x < 0 or cell_position.y < 0:
 		return false
 	if cell_position.x >= self.cell_width or cell_position.y >= self.cell_height:
+		return false
+	return true
+
+
+## Checks if cell_position is occupied by a block.
+## If [code]tetro[/code] is not null, then it will treat its child block as unoccupied cell.
+func is_cell_occupied(cell_position: Vector2i, tetro: Tetromino = null) -> bool:
+	var block = self.get_cell(cell_position)
+	if block == null:
+		return false
+	if tetro == null:
+		return true
+	return not tetro.is_ancestor_of(block)
+
+
+func is_tetro_can_move_to(tetro: Tetromino, dest_cell_positions: Array[Vector2i]) -> bool:
+	if dest_cell_positions.any(func(p): return not self.is_cell_inbound(p)):
+		return false
+	if dest_cell_positions.any(func(p): return self.is_cell_occupied(p, tetro)):
 		return false
 	return true
 
