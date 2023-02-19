@@ -32,15 +32,15 @@ func try_move_tetromino(event: InputEvent) -> void:
 	# Set "allow_echo" to true so when player holds these key they can still move tetrominos
 	# TODO Set a custome timeout to action hold time
 	if event.is_action_pressed("tetro_move_left", true):
-		self.try_move_left(active_tetromino)
+		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.LEFT)
 		_debug_print()
 	if event.is_action_pressed("tetro_move_right", true):
-		self.try_move_right(active_tetromino)
+		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.RIGHT)
 		_debug_print()
 	if event.is_action_pressed("tetro_soft_drop", true):
 		# Stop and restart the timer to avoid accelaration
 		$TetrominoDropTimer.stop()
-		self.try_move_down(active_tetromino)
+		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
 		$TetrominoDropTimer.start()
 		_debug_print()
 	if event.is_action_pressed("tetro_hard_drop"):
@@ -51,30 +51,6 @@ func try_move_tetromino(event: InputEvent) -> void:
 		self.try_rotate_ccw(active_tetromino)
 	if event.is_action_pressed("tetro_hold"):
 		print("todo, hold ", active_tetromino)
-
-
-func try_move_left(tetro: Tetromino):
-	# TODO Check boundary
-	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	tetro.move_left()
-	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
-
-
-func try_move_right(tetro: Tetromino):
-	# TODO Check boundary
-	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	tetro.move_right()
-	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
-
-
-func try_move_down(tetro: Tetromino):
-	# TODO Check boundary
-	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	tetro.move_down()
-	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
-	$CellManager.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 
 
 func try_rotate_cw(tetro: Tetromino):

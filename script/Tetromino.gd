@@ -6,28 +6,6 @@ enum TetroType { I, J, L, O, S, T, Z }
 var tetro_type: TetroType
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass  # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-
-
-func move_left():
-	self.move_to(Vector2.LEFT)
-
-
-func move_right():
-	self.move_to(Vector2.RIGHT)
-
-
-func move_down():
-	self.move_to(Vector2.DOWN)
-
-
 ## Move to [code]direction[/code] relative to this node's parent
 func move_to(direction: Vector2):
 	self.position += TetroBlock.BLOCK_SIZE * direction
@@ -41,6 +19,14 @@ func rotate_cw():
 ## Rotate self counter-clockwise
 func rotate_ccw():
 	self.rotation -= PI / 2
+
+
+func get_block_pixel_positions() -> Array[Vector2]:
+	var block_positions: Array[Vector2] = []
+	for block in self.get_children():
+		block_positions.push_back(self.position + block.position)
+	return block_positions
+
 
 func _debug_print():
 	for block in self.get_children():

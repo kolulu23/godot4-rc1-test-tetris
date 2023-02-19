@@ -10,8 +10,7 @@ script = ExtResource("1_12dns")
 [node name="Arena" parent="." instance=ExtResource("1_ayx2w")]
 
 [node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
-position = Vector2(408, 72)
-rotation = 3.14159
+position = Vector2(24, 24)
 
 [node name="x" type="Control" parent="."]
 layout_mode = 3
