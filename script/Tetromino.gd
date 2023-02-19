@@ -31,7 +31,8 @@ func get_block_pixel_positions() -> Array[Vector2]:
 func _debug_print():
 	for block in self.get_children():
 		## This is actually block_position_relative_to_arena
-		var block_position = self.position + block.position
+		# var block_position = self.position + block.position
+		var block_position = self.to_global(block.position)
 		var cell_position = CellManager.get_cell_position(block_position)
 		print(block.name, block_position, cell_position)
 	print()

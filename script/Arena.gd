@@ -32,38 +32,28 @@ func _input(event):
 
 func try_move_tetromino(event: InputEvent) -> void:
 	# Set "allow_echo" to true so when player holds these key they can still move tetrominos
+	var moved: bool = false
 	if event.is_action_pressed("tetro_move_left", true):
-		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.LEFT)
-		_debug_print()
+		moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.LEFT)
 	if event.is_action_pressed("tetro_move_right", true):
-		$CellManager.move_tetro_cells_to(active_tetromino, Vector2i.RIGHT)
-		_debug_print()
+		moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.RIGHT)
 	if event.is_action_pressed("tetro_soft_drop", true):
 		# Stop and restart the timer to avoid accelaration
 		$TetrominoDropTimer.stop()
-		var moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
+		moved = $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN)
 		$TetrominoDropTimer.start()
 		if not moved:
 			$TetrominoLockDownTimer.start()
-		_debug_print()
 	if event.is_action_pressed("tetro_hard_drop"):
 		print("todo, hard drop ", active_tetromino)
 	if event.is_action_pressed("tetro_rotate_cw"):
-		self.try_rotate_cw(active_tetromino)
+		moved = $CellManager.rotate_tetro_cells_to(active_tetromino, PI / 2)
 	if event.is_action_pressed("tetro_rotate_ccw"):
-		self.try_rotate_ccw(active_tetromino)
+		moved = $CellManager.rotate_tetro_cells_to(active_tetromino, -PI / 2)
 	if event.is_action_pressed("tetro_hold"):
 		print("todo, hold ", active_tetromino)
-
-
-func try_rotate_cw(tetro: Tetromino):
-	# TODO Check boundary
-	tetro.rotate_cw()
-
-
-func try_rotate_ccw(tetro: Tetromino):
-	# TODO Check boundary
-	tetro.rotate_ccw()
+	if moved:
+		_debug_print()
 
 
 func setup_cell_manager():
@@ -88,8 +78,8 @@ func setup_active_tetromino():
 
 func _on_tetromino_drop_timer_timeout():
 	# TODO Debug
-	if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
-		$TetrominoLockDownTimer.start()
+	# if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
+	# 	$TetrominoLockDownTimer.start()
 	pass
 
 

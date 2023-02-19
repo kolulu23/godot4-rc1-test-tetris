@@ -59,8 +59,8 @@ static func get_cell_positions_of_tetro(tetro: Tetromino) -> Array[Vector2i]:
 ## Since blocks are tetromino's children nodes, we can't calculate cell position without knowing where is the tetromino the block is in.
 ## Callers must present the related tetromino to get correct cell position.
 static func get_cell_position_of_block(block: TetroBlock, block_parent_tetro: Tetromino) -> Vector2i:
-	# This is actually block_position relative to tetromino's parent node
-	var block_position_relative = block_parent_tetro.position + block.position
+	# This is actually block_position relative to tetromino's parent node: arena has to be at (0, 0)
+	var block_position_relative = block_parent_tetro.to_global(block.position)
 	return CellManager.get_cell_position(block_position_relative)
 
 
@@ -83,10 +83,23 @@ func move_tetro_cells_to(tetro: Tetromino, direction: Vector2i) -> bool:
 	var dest_cell_positions: Array[Vector2i] = []
 	for cell_positon in src_cell_positions:
 		dest_cell_positions.push_back(cell_positon + direction)
+	# TODO Also check if there's other cell blocks its way
 	if not dest_cell_positions.all(self.is_cell_inbound):
 		return false
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 	tetro.move_to(direction)
+	return true
+
+
+func rotate_tetro_cells_to(tetro: Tetromino, _rotation: float) -> bool:
+	var dest_tetro = tetro.duplicate()
+	dest_tetro.rotate(_rotation)
+	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(dest_tetro)
+	if not dest_cell_positions.all(self.is_cell_inbound):
+		return false
+	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
+	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
+	tetro.rotate(_rotation)
 	return true
 
 

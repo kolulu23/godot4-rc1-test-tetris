@@ -10,7 +10,10 @@ script = ExtResource("1_12dns")
 [node name="Arena" parent="." instance=ExtResource("1_ayx2w")]
 
 [node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
-position = Vector2(24, 24)
+modulate = Color(1, 1, 1, 0.588235)
+show_behind_parent = true
+position = Vector2(264, 72)
+rotation = 1.5708
 
 [node name="x" type="Control" parent="."]
 layout_mode = 3
