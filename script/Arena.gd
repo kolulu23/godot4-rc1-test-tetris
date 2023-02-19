@@ -66,6 +66,7 @@ func setup_cell_manager():
 ## Setup active_tetromino
 ## First spawn a random tetromino, then put it to a designated spawn point
 func setup_active_tetromino():
+	$TetrominoDropTimer.stop()
 	active_tetromino = $TetrominoSpawner.spawn_random()
 	self.add_child(active_tetromino)
 	active_tetromino.position = $TetrominoSpawner.get_spawn_position_for(
@@ -74,6 +75,7 @@ func setup_active_tetromino():
 	var cell_positions = CellManager.get_cell_positions_of_tetro(active_tetromino)
 	if $CellManager.is_tetro_can_move_to(active_tetromino, cell_positions):
 		$CellManager.set_tetro_cells(active_tetromino)
+		$TetrominoDropTimer.start()
 	else:
 		print("[TODO]Game Over")
 	_debug_print()
