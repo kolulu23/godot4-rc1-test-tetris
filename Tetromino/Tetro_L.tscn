@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dxdcihwkola1r" path="res://Tetromino/TetroBlock.tscn" id="1_mlr03"]
 
 [node name="Tetro_L" type="Node2D"]
+modulate = Color(0.207843, 0.333333, 0.992157, 1)
 script = ExtResource("1_68fv6")
 
 [node name="L1" parent="." instance=ExtResource("1_mlr03")]

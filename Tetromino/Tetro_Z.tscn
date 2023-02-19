@@ -5,6 +5,7 @@
 
 [node name="TetroZ" type="Node2D"]
 editor_description = "Building block for tetromino. https://tetris.wiki/Tetromino"
+modulate = Color(0.894118, 0.235294, 0.101961, 1)
 script = ExtResource("1_7g1fp")
 
 [node name="Z1" parent="." instance=ExtResource("1_edvpj")]

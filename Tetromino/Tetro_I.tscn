@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://script/Tetromino.gd" id="1_vplaj"]
 
 [node name="Tetro_I" type="Node2D"]
+modulate = Color(0.509804, 0.980392, 0.996078, 1)
 script = ExtResource("1_vplaj")
 
 [node name="I1" parent="." instance=ExtResource("1_213t1")]
