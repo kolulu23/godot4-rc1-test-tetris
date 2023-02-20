@@ -21,7 +21,7 @@ func _process(_delta):
 	pass
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	pass
 
 
@@ -93,6 +93,10 @@ func _on_tetromino_drop_timer_timeout():
 func _on_tetromino_lock_down_timer_timeout():
 	print(active_tetromino, " locked down")
 	self.setup_active_tetromino()
+	var to_be_cleared_cells = $CellManager.try_clear_cells()
+	print(to_be_cleared_cells)
+	for cell in to_be_cleared_cells:
+		cell.queue_free()
 
 
 func _debug_print():

@@ -13,7 +13,20 @@ func get_cell_idx(cell_position: Vector2i) -> int:
 
 func get_cell(cell_position: Vector2i) -> TetroBlock:
 	var idx = self.get_cell_idx(cell_position)
-	return self.cells[idx]
+	var cell = self.cells[idx]
+	if cell != null and cell.is_inside_tree() and !cell.is_queued_for_deletion():
+		return cell
+	else:
+		return null
+
+
+## Get all cells at row [code]y[/code], from 0 to [member cell_width]
+func get_cell_at_row(y: int) -> Array[TetroBlock]:
+	var cells_at_row: Array[TetroBlock] = []
+	for x in range(self.cell_width):
+		var cell = self.get_cell(Vector2(x, y))
+		cells_at_row.push_back(cell)
+	return cells_at_row
 
 
 func set_cell(cell_position: Vector2i, cell: TetroBlock) -> void:
@@ -139,6 +152,18 @@ func is_tetro_can_move_to(tetro: Tetromino, dest_cell_positions: Array[Vector2i]
 	if dest_cell_positions.any(func(p): return self.is_cell_occupied(p, tetro)):
 		return false
 	return true
+
+
+## When one row of cells count to [member cell_width], it should be cleared and counts score
+## This methods tries to clear as many cells as it can and returns the number of rows it cleared.
+func try_clear_cells() -> Array[TetroBlock]:
+	var to_be_freed_cells: Array[TetroBlock] = []
+	for y in range(self.cell_height - 1, 0, -1):
+		var cells_at_row = self.get_cell_at_row(y)
+		if cells_at_row.any(func(block): return block == null):
+			continue
+		to_be_freed_cells.append_array(cells_at_row)
+	return to_be_freed_cells
 
 
 func _debug_print() -> void:
