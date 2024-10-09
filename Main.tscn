@@ -1,19 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://b70cc7lyewvwe"]
+[gd_scene load_steps=3 format=3 uid="uid://b70cc7lyewvwe"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_12dns"]
 [ext_resource type="PackedScene" uid="uid://donqc4orcxhap" path="res://Arena.tscn" id="1_ayx2w"]
-[ext_resource type="PackedScene" uid="uid://dcdy63dck6n2" path="res://Tetromino/Tetro_J.tscn" id="4_ml6h1"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_12dns")
 
 [node name="Arena" parent="." instance=ExtResource("1_ayx2w")]
-
-[node name="Tetro_J" parent="Arena" instance=ExtResource("4_ml6h1")]
-modulate = Color(1, 1, 1, 0.588235)
-show_behind_parent = true
-position = Vector2(168, 72)
-rotation = 1.5708
 
 [node name="x" type="Control" parent="."]
 layout_mode = 3

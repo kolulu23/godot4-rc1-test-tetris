@@ -1,4 +1,5 @@
 {
     "editor.insertSpaces": false,
-    "editor.autoIndent": "keep"
+    "editor.autoIndent": "keep",
+    "godotTools.editorPath.godot4": "/Applications/Godot.app"
 }
