@@ -59,7 +59,8 @@ static func get_cell_positions(pixel_positions: Array[Vector2]) -> Array[Vector2
 		cell_positions.push_back(cell_position)
 	return cell_positions
 
-
+## Get all the cell positions of tetromino blocks from one single tetromino.
+## The returned positions are ordered just as the tetromino child block nodes.
 static func get_cell_positions_of_tetro(tetro: Tetromino) -> Array[Vector2i]:
 	var cell_positions: Array[Vector2i] = []
 	for block in tetro.get_children():
@@ -97,7 +98,7 @@ func move_tetro_cells_to(tetro: Tetromino, direction: Vector2i) -> bool:
 	for cell_positon in src_cell_positions:
 		dest_cell_positions.push_back(cell_positon + direction)
 
-	if !self.is_tetro_can_move_to(tetro, dest_cell_positions):
+	if !self.is_tetro_movable(tetro, dest_cell_positions):
 		return false
 
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
@@ -110,12 +111,13 @@ func rotate_tetro_cells_to(tetro: Tetromino, _rotation: float) -> bool:
 	dest_tetro.rotate(_rotation)
 	var dest_cell_positions = CellManager.get_cell_positions_of_tetro(dest_tetro)
 
-	if !self.is_tetro_can_move_to(tetro, dest_cell_positions):
+	if !self.is_tetro_movable(tetro, dest_cell_positions):
 		return false
 
 	var src_cell_positions = CellManager.get_cell_positions_of_tetro(tetro)
 	self.move_tetro_cells(tetro, src_cell_positions, dest_cell_positions)
 	tetro.rotate(_rotation)
+	dest_tetro.queue_free()
 	return true
 
 
@@ -146,7 +148,7 @@ func is_cell_occupied(cell_position: Vector2i, tetro: Tetromino = null) -> bool:
 	return not tetro.is_ancestor_of(block)
 
 
-func is_tetro_can_move_to(tetro: Tetromino, dest_cell_positions: Array[Vector2i]) -> bool:
+func is_tetro_movable(tetro: Tetromino, dest_cell_positions: Array[Vector2i]) -> bool:
 	if dest_cell_positions.any(func(p): return not self.is_cell_inbound(p)):
 		return false
 	if dest_cell_positions.any(func(p): return self.is_cell_occupied(p, tetro)):

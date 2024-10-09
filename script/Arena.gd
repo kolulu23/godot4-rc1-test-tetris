@@ -68,24 +68,26 @@ func setup_cell_manager():
 func setup_active_tetromino():
 	$TetrominoDropTimer.stop()
 	active_tetromino = $TetrominoSpawner.spawn_random()
-	self.add_child(active_tetromino)
 	active_tetromino.position = $TetrominoSpawner.get_spawn_position_for(
 		active_tetromino, ARENA_WIDTH
 	)
 	var cell_positions = CellManager.get_cell_positions_of_tetro(active_tetromino)
-	if $CellManager.is_tetro_can_move_to(active_tetromino, cell_positions):
+	if $CellManager.is_tetro_movable(active_tetromino, cell_positions):
+		self.add_child(active_tetromino)
 		$CellManager.set_tetro_cells(active_tetromino)
 		$TetrominoDropTimer.start()
 	else:
 		print("[TODO]Game Over")
+		active_tetromino.free()
 	_debug_print()
 	print("[1]Spawn ", active_tetromino)
 
 
 func _on_tetromino_drop_timer_timeout():
-	# TODO Debug
-	# if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
-	# 	$TetrominoLockDownTimer.start()
+	# If new tetromino can not drop, then user input had a chance to change the situation until the lock down timer runs out.
+	if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
+		$TetrominoDropTimer.stop()
+		$TetrominoLockDownTimer.start()
 	pass
 
 
