@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c36q7b6uud3hx"]
+
+[node name="Control" type="CanvasLayer"]
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+self_modulate = Color(1, 1, 1, 0.745098)
+anchors_preset = -1
+anchor_left = 0.129
+anchor_top = 0.202
+anchor_right = 0.131
+anchor_bottom = 0.205
+offset_left = 1.07999
+offset_top = 3.07999
+offset_right = 350.12
+offset_bottom = 140.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="GameStats" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Padding" type="Control" parent="PanelContainer/VBoxContainer/GameStats"]
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+
+[node name="ScoreLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/GameStats"]
+custom_minimum_size = Vector2(50, 26)
+layout_mode = 2
+text = "Score: "
+scroll_active = false
+
+[node name="Padding2" type="Control" parent="PanelContainer/VBoxContainer/GameStats"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Score" type="RichTextLabel" parent="PanelContainer/VBoxContainer/GameStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "?????"
+scroll_active = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Padding" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
+
+[node name="GameOverLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 51)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Game Over
+Press [color=red]R[/color] to restart"
+scroll_active = false

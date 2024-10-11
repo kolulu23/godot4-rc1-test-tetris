@@ -8,6 +8,7 @@ const ARENA_HEIGHT: int = 20
 const ARENA_WIDTH_PIXEL: float = ARENA_WIDTH * TetroBlock.BLOCK_SIZE
 const ARENA_HEIGHT_PIXEL: float = ARENA_HEIGHT * TetroBlock.BLOCK_SIZE
 
+signal game_over
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -77,7 +78,7 @@ func setup_active_tetromino():
 		$CellManager.set_tetro_cells(active_tetromino)
 		$TetrominoDropTimer.start()
 	else:
-		print("[TODO]Game Over")
+		game_over.emit()
 		active_tetromino.free()
 	_debug_print()
 	print("[1]Spawn ", active_tetromino)
