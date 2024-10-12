@@ -14,3 +14,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
+
+func move_to(direction: Vector2):
+	self.position += TetroBlock.BLOCK_SIZE * direction

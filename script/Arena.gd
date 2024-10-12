@@ -3,6 +3,8 @@ extends Node2D
 ## Current active tetromino, could be null if it was not spawned in time
 var active_tetromino: Tetromino
 
+var paused: bool = false
+
 const ARENA_WIDTH: int = 10
 const ARENA_HEIGHT: int = 20
 const ARENA_WIDTH_PIXEL: float = ARENA_WIDTH * TetroBlock.BLOCK_SIZE
@@ -27,8 +29,13 @@ func _physics_process(_delta):
 
 
 func _input(event):
-	if active_tetromino != null:
+	if !self.paused and active_tetromino != null:
 		try_move_tetromino(event)
+	if event.is_action_released("debug_print"):
+		_debug_print()
+	if event.is_action_released("pause_game"):
+		self.paused = !self.paused
+		$TetrominoDropTimer.paused = self.paused
 
 
 func try_move_tetromino(event: InputEvent) -> void:
@@ -53,8 +60,6 @@ func try_move_tetromino(event: InputEvent) -> void:
 		moved = $CellManager.rotate_tetro_cells_to(active_tetromino, -PI / 2)
 	if event.is_action_pressed("tetro_hold"):
 		print("todo, hold ", active_tetromino)
-	if moved:
-		_debug_print()
 
 
 func setup_cell_manager():
@@ -89,17 +94,13 @@ func _on_tetromino_drop_timer_timeout():
 	if not $CellManager.move_tetro_cells_to(active_tetromino, Vector2i.DOWN):
 		$TetrominoDropTimer.stop()
 		$TetrominoLockDownTimer.start()
-	pass
 
 
 ## This is a one shot timer, we start it manually
 func _on_tetromino_lock_down_timer_timeout():
 	print(active_tetromino, " locked down")
 	self.setup_active_tetromino()
-	var to_be_cleared_cells = $CellManager.try_clear_cells()
-	print(to_be_cleared_cells)
-	for cell in to_be_cleared_cells:
-		cell.queue_free()
+	$CellManager.line_clear()
 
 
 func _debug_print():

@@ -77,6 +77,16 @@ static func get_cell_position_of_block(block: TetroBlock, block_parent_tetro: Te
 	var block_position_relative = block_parent_tetro.to_global(block.position)
 	return CellManager.get_cell_position(block_position_relative)
 
+## Move a cell towards [code]direction[/code] regardless of what tetromino is belongs to.
+func move_cell(cell: TetroBlock, direction: Vector2i):
+	if cell == null:
+		return
+	var cell_pos = CellManager.get_cell_position_of_block(cell, cell.get_parent())
+	var dest_pos = cell_pos + direction
+	self.set_cell(cell_pos, null)
+	self.set_cell(dest_pos, cell)
+	cell.move_to(direction)
+
 
 ## Move a tetromino according to a destination. It will first clear related blocks, then reset those blocks to new cell.
 ## [code]src_array[/code]: Array of cell positions before moving the tetromino, it is passed separately so callers can choose when to update [code]tetro.position[/code]
@@ -156,18 +166,6 @@ func is_tetro_movable(tetro: Tetromino, dest_cell_positions: Array[Vector2i]) ->
 	return true
 
 
-## When one row of cells count to [member cell_width], it should be cleared and counts score
-## This methods tries to clear as many cells as it can and returns the number of rows it cleared.
-func try_clear_cells() -> Array[TetroBlock]:
-	var to_be_freed_cells: Array[TetroBlock] = []
-	for y in range(self.cell_height - 1, 0, -1):
-		var cells_at_row = self.get_cell_at_row(y)
-		if cells_at_row.any(func(block): return block == null):
-			continue
-		to_be_freed_cells.append_array(cells_at_row)
-	return to_be_freed_cells
-
-
 func _debug_print() -> void:
 	for y in range(0, self.cell_height):
 		var line = ""
@@ -178,3 +176,27 @@ func _debug_print() -> void:
 				cell_symbol = "@"
 			line += cell_symbol
 		print(line)
+
+
+## When one row of cells count to [member cell_width], it should be cleared and counts score
+## This methods tries to clear as many cells as it can and returns the number of rows it cleared.
+## Returns the number of cleared lines.
+func line_clear() -> int:
+	var lines_cleared: int = 0
+	var lines_freed: Array[int] = []
+	# Clear starts from bottom to top
+	for y in range(self.cell_height - 1, 0, -1):
+		var cell_line = self.get_cell_at_row(y)
+		# Any empty cell in a line is considered not clearable
+		if cell_line.any(func(block): return block == null):
+			continue
+		for cell in cell_line:
+			cell.queue_free()
+		lines_cleared += 1
+		lines_freed.append(y)
+	for y in lines_freed:
+		# Move the one line above down if cell_line is cleared
+		var cells_above = self.get_cell_at_row(y - 1)
+		for cell in cells_above:
+			self.move_cell(cell, Vector2i.DOWN)
+	return lines_cleared

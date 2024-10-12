@@ -1,7 +1,7 @@
 extends Node2D
 class_name Tetromino
 
-enum TetroType { I, J, L, O, S, T, Z }
+enum TetroType {I, J, L, O, S, T, Z}
 
 var tetro_type: TetroType
 
